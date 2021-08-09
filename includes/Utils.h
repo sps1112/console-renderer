@@ -4,6 +4,12 @@
 // Custom Headers
 #include <TextRenderer.h>
 
+// Prints a Message to the Console
+void print_message(const char *message)
+{
+    print_text_colored(message);
+}
+
 // Logs a Message to the Console
 void log_message(const char *message)
 {
