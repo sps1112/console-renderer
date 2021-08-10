@@ -89,23 +89,23 @@ public:
     }
 
     // Moves the position of a pixel by a direction
-    void move_pixel(Position *p, int dir)
+    void move_pixel(Position *p, int dir, int dis = 1)
     {
         char c = screenPixels[get_index(p->x, p->y)];
         set_pixel(p->x, p->y, ' ');
         switch (dir)
         {
         case 1:
-            p->y -= 1;
+            p->y -= dis;
             break;
         case 2:
-            p->x += 1;
+            p->x += dis;
             break;
         case 3:
-            p->y += 1;
+            p->y += dis;
             break;
         case 4:
-            p->x -= 1;
+            p->x -= dis;
             break;
         default:
             break;

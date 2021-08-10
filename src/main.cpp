@@ -8,7 +8,7 @@
 // Standard Headers
 #include <iostream>
 
-int get_dir(Screen *screen)
+void get_dir(Screen *screen, Position *p)
 {
     log_message(" ");
     log_message("Choose a Direction to Move:");
@@ -20,6 +20,8 @@ int get_dir(Screen *screen)
     print_message("Choose: ");
     char ch;
     std::cin >> ch;
+    int d;
+    std::cin >> d;
     screen->clear_line();
     screen->clear_line();
     screen->clear_line();
@@ -28,28 +30,30 @@ int get_dir(Screen *screen)
     screen->clear_line();
     screen->clear_line();
     screen->clear_line();
+    int dir;
     switch (ch)
     {
     case 'W':
     case 'w':
-        return 1;
+        dir = 1;
         break;
     case 'D':
     case 'd':
-        return 2;
+        dir = 2;
         break;
     case 'S':
     case 's':
-        return 3;
+        dir = 3;
         break;
     case 'A':
     case 'a':
-        return 4;
+        dir = 4;
         break;
     default:
-        return 0;
+        dir = 0;
         break;
     }
+    screen->move_pixel(p, dir, d);
 }
 
 int main()
@@ -74,8 +78,7 @@ int main()
         }
         else
         {
-            int dir = get_dir(&screen);
-            screen.move_pixel(&p, dir);
+            get_dir(&screen, &p);
         }
         screen.clear_screen();
     }
