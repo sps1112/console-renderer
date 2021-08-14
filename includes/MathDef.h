@@ -8,16 +8,16 @@ int clamp(int a, int min, int max)
 }
 
 // 2D Position Struct i.e. (x, y)
-struct Position
+struct CVector
 {
-    int x; // X coordinate
-    int y; // Y coordinate
+    float x; // X coordinate
+    float y; // Y coordinate
 
     // Default Constructor
-    Position(int x_ = 0, int y_ = 0) : x(x_), y(y_) {}
+    CVector(float x_ = 0, float y_ = 0) : x(x_), y(y_) {}
 
-    // Moves the Position by (dx, dy)
-    void move(int dx = 0, int dy = 0)
+    // Moves the Vector by (dx, dy)
+    void move(float dx = 0, float dy = 0)
     {
         x += dx;
         y += dy;

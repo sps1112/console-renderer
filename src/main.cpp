@@ -1,86 +1,66 @@
 // Custom Headers
-#include <Utils.h>
-#include <TextRenderer.h>
-#include <config.h>
-#include <Screen.h>
 #include <MathDef.h>
+#include <Screen.h>
+#include <Renderer.h>
 
 // Standard Headers
 #include <iostream>
 
-void get_dir(Screen *screen, Position *p)
-{
-    log_message(" ");
-    log_message("Choose a Direction to Move:");
-    log_message("1. W or w for Up");
-    log_message("2. D or d for Right");
-    log_message("3. S or s for Down");
-    log_message("4. A or a for Left");
-    log_message("5. Any other letter for None");
-    print_message("Choose: ");
-    char ch;
-    std::cin >> ch;
-    int d;
-    std::cin >> d;
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    screen->clear_line();
-    int dir;
-    switch (ch)
-    {
-    case 'W':
-    case 'w':
-        dir = 1;
-        break;
-    case 'D':
-    case 'd':
-        dir = 2;
-        break;
-    case 'S':
-    case 's':
-        dir = 3;
-        break;
-    case 'A':
-    case 'a':
-        dir = 4;
-        break;
-    default:
-        dir = 0;
-        break;
-    }
-    screen->move_pixel(p, dir, d);
-}
+float fPlayerX = 14.7f; // Player Start Position
+float fPlayerY = 5.09f;
+float fSpeed = 5.0f; // Walking Speed
 
 int main()
 {
-    log_completion("Start");
-    Screen screen(SCREEN_WIDTH, SCREEN_HEIGHT);
-    Position p(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    screen.set_pixel(p.x, p.y, CURSOR_TEXT);
-    bool quit = false;
-    while (!quit)
+    CRenderer renderer;
+    CVector dimensions = renderer.get_dimensions();
+    CScreen map;
+    map.set_start(3, 3);
+    CVector mapStart = map.get_start();
+    renderer.start_timer();
+    while (1)
     {
-        screen.print_screen();
-        log_message(" ");
-        print_message("Enter 0 to quit or any other to continue: ");
-        int n;
-        std::cin >> n;
-        screen.clear_line();
-        screen.clear_line();
-        if (n == 0)
+        renderer.new_frame();
+        CVector displacement;
+        // Handle CCW Rotation
+        if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
         {
-            quit = true;
+            displacement.x -= fSpeed * renderer.get_delta();
         }
-        else
+        if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
         {
-            get_dir(&screen, &p);
+            displacement.x += fSpeed * renderer.get_delta();
         }
-        screen.clear_screen();
+        fPlayerX += displacement.x;
+        if (map.get_pixel_data((int)fPlayerX - mapStart.x, (int)fPlayerY - mapStart.y) == BORDER_CTEXT)
+        {
+            fPlayerX -= displacement.x;
+        }
+        if (GetAsyncKeyState((unsigned short)'W') & 0x8000)
+        {
+            displacement.y -= fSpeed * renderer.get_delta();
+        }
+        if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
+        {
+            displacement.y += fSpeed * renderer.get_delta();
+        }
+        fPlayerY += displacement.y;
+        if (map.get_pixel_data((int)fPlayerX - mapStart.x, (int)fPlayerY - mapStart.y) == BORDER_CTEXT)
+        {
+            fPlayerY -= displacement.y;
+        }
+        for (int y = 0; y < dimensions.y; y++)
+        {
+            for (int x = 0; x < dimensions.x; x++)
+            {
+                renderer.set_pixel(y * dimensions.x + x, ' ');
+            }
+        }
+        // Display Map
+        renderer.draw_screen(&map);
+        renderer.set_pixel(((int)fPlayerY) * dimensions.x + (int)fPlayerX, 'P');
+
+        renderer.refesh_frame();
     }
-    log_completion("Finish!");
+    return 0;
 }

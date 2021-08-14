@@ -8,6 +8,85 @@
 // Custom Headers
 #include <MathDef.h>
 
+struct Pixel
+{
+    wchar_t data;
+};
+
+class CScreen
+{
+private:
+    int width;
+    int height;
+    CVector startEdge;
+    Pixel *pixels;
+
+    // Gets the Index of the Pixel from x,y coordinate
+    int get_screen_index(int x, int y)
+    {
+        return ((y * width) + x);
+    }
+
+    int get_window_index()
+    {
+    }
+
+    // Initializes the Pixels
+    void initialize_pixels()
+    {
+        pixels = new Pixel[width * height];
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
+                {
+                    pixels[get_screen_index(x, y)].data = BORDER_CTEXT;
+                }
+                else
+                {
+                    pixels[get_screen_index(x, y)].data = EMPTY_CTEXT;
+                }
+            }
+        }
+    }
+
+public:
+    CScreen(int width_ = SCREEN_WIDTH, int height_ = SCREEN_HEIGHT)
+    {
+        width = width_;
+        height = height_;
+
+        initialize_pixels();
+    }
+    void set_start(int startX = 0, int startY = 0)
+    {
+        startEdge.x = startX;
+        startEdge.y = startY;
+    }
+
+    char get_pixel_data(int x, int y)
+    {
+        return pixels[get_screen_index(x, y)].data;
+    }
+
+    // Sets the Pixel at (x, y) to a character
+    void set_pixel(int x, int y, wchar_t c)
+    {
+        pixels[get_screen_index(x, y)].data = c;
+    }
+
+    CVector get_dimensions()
+    {
+        return CVector(width, height);
+    }
+
+    CVector get_start()
+    {
+        return startEdge;
+    }
+};
+
 // Renderer Screen Class
 class Screen
 {
@@ -30,7 +109,7 @@ private:
             {
                 if (x == 0 || x == width - 1 || y == 0 || y == height - 1)
                 {
-                    screenPixels[get_index(x, y)] = BORDER_TEXT;
+                    screenPixels[get_index(x, y)] = BORDER_CTEXT;
                 }
                 else
                 {
@@ -89,7 +168,7 @@ public:
     }
 
     // Moves the position of a pixel by a direction
-    void move_pixel(Position *p, int dir, int dis = 1)
+    void move_pixel(CVector *p, int dir, int dis = 1)
     {
         char c = screenPixels[get_index(p->x, p->y)];
         set_pixel(p->x, p->y, ' ');
