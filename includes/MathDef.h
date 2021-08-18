@@ -22,6 +22,13 @@ struct CVector
         x += dx;
         y += dy;
     }
+
+    // Moves the Vector by CVector(x,y)
+    void move(CVector vec)
+    {
+        x += vec.x;
+        y += vec.y;
+    }
 };
 
 #endif // MATH_DEF_H
