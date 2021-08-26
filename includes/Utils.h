@@ -16,11 +16,13 @@ void log_message(const char *message)
     log_text_colored(message);
 }
 
+// Logs an Error Message with a different Color
 void log_error(const char *error)
 {
     log_text_colored(error, COLOR_RED);
 }
 
+// Logs an Completion Message with a different Color
 void log_completion(const char *message)
 {
     log_text_colored(message, COLOR_GREEN);

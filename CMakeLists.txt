@@ -9,5 +9,4 @@ endif(!MSVC)
 
 include_directories(includes)
 
-add_executable(console-renderer
-                src/main.cpp)       
+add_executable(console-renderer src/main.cpp)
