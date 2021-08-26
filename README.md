@@ -5,9 +5,11 @@ A primitive Renderer utilizing Console rendering. It can be used to render to tr
 
 - [X] Text Rendering
 - [X] Colored Text
-- [ ] Text Class
+- [X] Text Class
 - [ ] Pixel Class
-- [X] Window Rendering
+- [ ] Window Rendering
 - [ ] User Input
-- [X] Game Loop
-- [ ] Console Physics
+- [ ] Game Loop
+- [ ] Game Physics
+- [ ] Scrolling Text
+- [ ] Movable Cursor
