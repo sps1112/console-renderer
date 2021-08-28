@@ -75,6 +75,8 @@ namespace cren
     {
         COLOR_TEMPLATE col; // The Color of Object
         bool bright;        // If the Object Color is Bright Version
+
+        // Default Color Constructor
         Color(COLOR_TEMPLATE col_ = COLOR_WHITE, bool bright_ = false) : col(col_), bright(bright_) {}
     };
 
@@ -83,6 +85,8 @@ namespace cren
     {
         Color text;       // Color of the Text
         Color background; // Color of the Background
+
+        // Default Style Constructor
         Style(Color text_ = Color(COLOR_WHITE), Color background_ = Color(COLOR_BLACK))
             : text(text_), background(background_) {}
 

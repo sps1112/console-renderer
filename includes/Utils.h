@@ -3,6 +3,7 @@
 
 // Custom Headers
 #include <TextRenderer.h>
+
 namespace cren
 {
     // Default Error text
